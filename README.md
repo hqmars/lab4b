@@ -18,6 +18,6 @@ BIC21203 Web Development, UTHM
 
 ## Screenshots
 
-- `Q1`: ![json]image-3.png
-- `Q2`: ![books]image.png
-- `Q3`: ![jquery]image-2.png
+- `Q1`: ![json](image-3.png).
+- `Q2`: ![books](image.png).
+- `Q3`: ![jquery](image-2.png).
