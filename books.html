@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lab 4b - Q2: Books (fetch)</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 640px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+      }
+      h2 {
+        margin-bottom: 0.25rem;
+      }
+      .error {
+        color: #b00020;
+        background: #fdecea;
+        padding: 10px;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Books from books.json</h1>
+    <h2>(a) Title of the first book</h2>
+    <p id="firstTitle"></p>
+    <h2>(b) Author of the second book</h2>
+    <p id="secondAuthor"></p>
+    <h2>(c) Genres of both books</h2>
+    <ul id="genreList"></ul>
+    <div id="message"></div>
+    <script>
+      async function loadBooks() {
+        const message = document.getElementById("message");
+        try {
+          const response = await fetch("books.json");
+          if (!response.ok) {
+            throw new Error("Server responded with status " + response.status);
+          }
+
+          const data = await response.json();
+          if (!data || !Array.isArray(data.books) || data.books.length < 2) {
+            throw new Error(
+              "books.json does not contain the expected 'books' array.",
+            );
+          }
+
+          document.getElementById("firstTitle").textContent =
+            data.books[0].title;
+
+          document.getElementById("secondAuthor").textContent =
+            data.books[1].author;
+
+          const list = document.getElementById("genreList");
+          data.books.forEach((book) => {
+            const li = document.createElement("li");
+            li.textContent = book.title + " \u2014 " + book.genres.join(", ");
+            list.appendChild(li);
+          });
+        } catch (error) {
+          console.error(error);
+          const p = document.createElement("p");
+          p.className = "error";
+          p.textContent =
+            "Sorry, the book data could not be loaded. Please check that books.json exists, is valid, and that the page is served from a local server.";
+          message.appendChild(p);
+        }
+      }
+
+      loadBooks();
+    </script>
+  </body>
+</html>
